@@ -46,6 +46,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 const sessionConfig = {
     secret: 'thisshouldbeabettersecret',
+    mapbox_api_key: process.env.MAPBOX_TOKEN,
     resave: false,
     saveUninitialized: true,
     cookie: {

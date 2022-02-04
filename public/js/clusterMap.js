@@ -1,3 +1,15 @@
+console.log(campgrounds);
+
+const data = { features: campgrounds }
+console.log(data);
+// locations = [];
+// titles = [];
+
+// for (let i = 0; i < campgrounds.length; i++) {
+//     titles.push(campgrounds[i].title)
+//     locations.push(campgrounds[i].geometry)
+// }
+
 mapboxgl.accessToken = 'pk.eyJ1IjoiamFjb2Jyb3NlIiwiYSI6ImNraWFrZzZzNjAzdXMycmswYzExOGRyNmUifQ.x7FRktD6C81DF6LkefyRuQ';
 const map = new mapboxgl.Map({
     container: 'cluster-map',
@@ -16,7 +28,7 @@ map.on('load', function () {
         type: 'geojson',
         // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
         // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
-        data: campgrounds,
+        data: data,
         cluster: true,
         clusterMaxZoom: 14, // Max zoom to cluster points on
         clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
@@ -40,7 +52,9 @@ map.on('load', function () {
                 10,
                 '#2196F3',
                 30,
-                '#3F51B5'
+                '#3F51B5',
+                100,
+                '#702963',
             ],
             'circle-radius': [
                 'step',
@@ -73,7 +87,7 @@ map.on('load', function () {
         filter: ['!', ['has', 'point_count']],
         paint: {
             'circle-color': '#11b4da',
-            'circle-radius': 4,
+            'circle-radius': 7,
             'circle-stroke-width': 1,
             'circle-stroke-color': '#fff'
         }
@@ -104,6 +118,7 @@ map.on('load', function () {
     // description HTML from its properties.
     map.on('click', 'unclustered-point', function (e) {
         const { popUpMarkup } = e.features[0].properties;
+        console.log(e.features[0])
         const coordinates = e.features[0].geometry.coordinates.slice();
 
         // Ensure that if the map is zoomed out such that

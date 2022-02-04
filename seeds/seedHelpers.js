@@ -64,5 +64,5 @@ module.exports.image_filenames = [
     'YelpCamp/ben-duchac-3fJOXw1RbPo-unsplash_jzkird',
     'YelpCamp/glen-jackson-mzZVGFfMOkA-unsplash_cq9vgb',
     'YelpCamp/chris-schog-EnCaUE4QNOw-unsplash_zcljmc',
-    'YelpCamp/daan-weijers-pSaEMIiUO84-unsplash_ou02yc'
+    'YelpCamp/daan-weijers-pSaEMIiUO84-unsplash_ou02yc',
 ]

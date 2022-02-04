@@ -7200,7 +7200,7 @@ module.exports = [
         state: "New York",
     },
     {
-        city: "Coeur d'Alene",
+        city: "Coeur d&#39;Alene",
         growth_from_2000_to_2013: "32.8%",
         latitude: 47.6776832,
         longitude: -116.7804664,

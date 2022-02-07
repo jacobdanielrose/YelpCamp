@@ -107,7 +107,6 @@ map.on('load', function () {
     // description HTML from its properties.
     map.on('click', 'unclustered-point', function (e) {
         const { id, title } = e.features[0].properties;
-        console.log(e.features[0].properties);
         const coordinates = e.features[0].geometry.coordinates.slice();
 
         // Ensure that if the map is zoomed out such that
@@ -119,7 +118,7 @@ map.on('load', function () {
 
         new mapboxgl.Popup()
             .setLngLat(coordinates)
-            .setHTML(`<a href="/campgrounds/${id}$">${title}</a>`)
+            .setHTML(`<a href="/campgrounds/${id}">${title}</a>`)
             .addTo(map);
     });
 

@@ -1,5 +1,6 @@
-const mapLocation = [-74.5, 40]
-mapboxgl.accessToken = mapToken;
+const mapLocation = campground.geometry.coordinates
+console.log(campground)
+mapboxgl.accessToken = 'pk.eyJ1IjoiamFjb2Jyb3NlIiwiYSI6ImNraWFrZzZzNjAzdXMycmswYzExOGRyNmUifQ.x7FRktD6C81DF6LkefyRuQ';
 const map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/light-v10', // stylesheet location
@@ -15,7 +16,7 @@ new mapboxgl.Marker()
     .setPopup(
         new mapboxgl.Popup({ offset: 25 })
             .setHTML(
-                '<h3>${campground.title}</h3><p>${campground.location}</p>'
+                `<h4>${campground.title}</h4><p>${campground.location}</p>`
             )
     )
     .addTo(map)

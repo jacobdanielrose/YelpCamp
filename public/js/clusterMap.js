@@ -1,15 +1,4 @@
-console.log(campgrounds);
-
 const data = { features: campgrounds }
-console.log(data);
-// locations = [];
-// titles = [];
-
-// for (let i = 0; i < campgrounds.length; i++) {
-//     titles.push(campgrounds[i].title)
-//     locations.push(campgrounds[i].geometry)
-// }
-
 mapboxgl.accessToken = 'pk.eyJ1IjoiamFjb2Jyb3NlIiwiYSI6ImNraWFrZzZzNjAzdXMycmswYzExOGRyNmUifQ.x7FRktD6C81DF6LkefyRuQ';
 const map = new mapboxgl.Map({
     container: 'cluster-map',
@@ -117,8 +106,8 @@ map.on('load', function () {
     // the location of the feature, with
     // description HTML from its properties.
     map.on('click', 'unclustered-point', function (e) {
-        const { popUpMarkup } = e.features[0].properties;
-        console.log(e.features[0])
+        const { id, title } = e.features[0].properties;
+        console.log(e.features[0].properties);
         const coordinates = e.features[0].geometry.coordinates.slice();
 
         // Ensure that if the map is zoomed out such that
@@ -130,7 +119,7 @@ map.on('load', function () {
 
         new mapboxgl.Popup()
             .setLngLat(coordinates)
-            .setHTML(popUpMarkup)
+            .setHTML(`<a href="/campgrounds/${id}$">${title}</a>`)
             .addTo(map);
     });
 

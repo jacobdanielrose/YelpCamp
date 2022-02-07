@@ -45,9 +45,15 @@ const CampgroundSchema = new Schema({
     ]
 }, opts);
 
-CampgroundSchema.virtual('properties.popUpMarkup').get(function () {
-    return `<a>${this.title}</a>`
+// Need to pass virtual properties to connect the 
+CampgroundSchema.virtual('properties.title').get(function () {
+    return `${this.title}`
 })
+
+CampgroundSchema.virtual('properties.id').get(function () {
+    return `${this._id}`
+})
+
 
 CampgroundSchema.post('findOneAndDelete', async function (doc) {
     if (doc) {

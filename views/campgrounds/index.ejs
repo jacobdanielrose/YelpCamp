@@ -42,7 +42,7 @@
     </div>
 
     <script>
-        const campgrounds = '<%- JSON.stringify(campgrounds) %>'
+        const campgrounds = JSON.parse('<%- JSON.stringify(campgrounds) %>')
     </script>
 
     <script src="/js/clusterMap.js"></script>

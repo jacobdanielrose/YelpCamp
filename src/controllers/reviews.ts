@@ -1,7 +1,10 @@
 const Campground = require('../models/campground')
 const Review = require('../models/review')
 
-module.exports.createReview = async (req, res) => {
+import express, { Express, Request, Response, NextFunction } from 'express';
+
+
+export async function createReview(req: Request, res: Response) {
     const campground = await Campground.findById(req.params.id)
     const review = new Review(req.body.review)
     review.author = req.user._id
@@ -12,7 +15,7 @@ module.exports.createReview = async (req, res) => {
     res.redirect(`/campgrounds/${campground._id}`)
 }
 
-module.exports.deleteReview = async (req, res) => {
+export async function deleteReview(req: Request, res: Response) {
     const { id, reviewId } = req.params
     Campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } })
     await Review.findByIdAndDelete(reviewId)

@@ -1,20 +1,23 @@
-const Campground = require('../models/campground')
-const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding')
+import { Request, Response, NextFunction } from "express"
+import Campground from '../models/campground'
+import { cloudinary } from '../../cloudinary'
+
+//@ts-ignore
+import mbxGeocoding from '@mapbox/mapbox-sdk/services/geocoding'
 const mapBoxToken = process.env.MAPBOX_TOKEN
 const geocoder = mbxGeocoding({ accessToken: mapBoxToken })
-const { cloudinary } = require('../cloudinary')
 
 
-module.exports.index = async (req, res) => {
+export async function index(req: Request, res: Response) {
     const campgrounds = await Campground.find({})
     res.render('campgrounds/index', { campgrounds })
 }
 
-module.exports.renderNewForm = (req, res) => {
+export function renderNewForm(req: Request, res: Response) {
     res.render('campgrounds/new')
 }
 
-module.exports.createCampground = async (req, res, next) => {
+export async function createCampground(req: Request, res: Response, next: NextFunction) {
     const geoData = await geocoder.forwardGeocode({
         query: req.body.campground.location,
         limit: 1
@@ -29,7 +32,7 @@ module.exports.createCampground = async (req, res, next) => {
 
 }
 
-module.exports.showCampground = async (req, res) => {
+export async function showCampground(req: Request, res: Response) {
     const campground = await (await Campground.findById(req.params.id).populate({
         path: 'reviews',
         populate: {
@@ -43,7 +46,7 @@ module.exports.showCampground = async (req, res) => {
     res.render('campgrounds/show', { campground })
 }
 
-module.exports.renderEditForm = async (req, res) => {
+export async function renderEditForm(req: Request, res: Response) {
     const campground = await Campground.findById(req.params.id)
     if (!campground) {
         req.flash('error', 'Cannot find that campground!')
@@ -53,7 +56,7 @@ module.exports.renderEditForm = async (req, res) => {
 
 }
 
-module.exports.updateCampground = async (req, res) => {
+export async function updateCampground(req: Request, res: Response) {
     const { id } = req.params
     const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground })
     const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }))
@@ -69,7 +72,7 @@ module.exports.updateCampground = async (req, res) => {
     res.redirect(`/campgrounds/${campground._id}`)
 }
 
-module.exports.deleteCampground = async (req, res) => {
+export async function deleteCampground(req: Request, res: Response) {
     const { id } = req.params
     await Campground.findByIdAndDelete(id)
     req.flash('success', 'Successfully deleted campground')

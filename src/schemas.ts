@@ -1,7 +1,7 @@
 const BaseJoi = require('joi')
 const sanitizeHtml = require('sanitize-html')
 
-const extension = (joi) => ({
+const extension = (joi: { string: () => any; }) => ({
     type: 'string',
     base: joi.string(),
     messages: {
@@ -9,7 +9,7 @@ const extension = (joi) => ({
     },
     rules: {
         escapeHTML: {
-            validate(value, helpers) {
+            validate(value: any, helpers: { error: (arg0: string, arg1: { value: any; }) => any; }) {
                 const clean = sanitizeHtml(value, {
                     allowedTags: [],
                     allowedAttributes: {},

@@ -1,11 +1,15 @@
-const { func } = require('joi');
-const mongoose = require('mongoose');
-const Review = require('./review')
-const Schema = mongoose.Schema;
+import mongoose, { Schema, model } from 'mongoose';
+import Review from './review';
+
 
 // https://res.cloudinary.com/demo/image/upload/w_300,h_200,c_crop/sample.jpg
 
-const ImageSchema = new Schema({
+interface IImage {
+    url: string;
+    filename: string;
+}
+
+const ImageSchema = new Schema<IImage>({
     url: String,
     filename: String
 })
@@ -16,7 +20,19 @@ ImageSchema.virtual('thumbnail').get(function () {
 
 const opts = { toJSON: { virtuals: true } };
 
-const CampgroundSchema = new Schema({
+// TODO: define this type more accurately
+interface ICampground {
+    title: string;
+    images: any;
+    geometry: any;
+    price: number;
+    description: string;
+    location: string;
+    author: any;
+    reviews: any;
+}
+
+const CampgroundSchema = new Schema<ICampground>({
     title: String,
     images: [ImageSchema],
     geometry: {
@@ -65,4 +81,5 @@ CampgroundSchema.post('findOneAndDelete', async function (doc) {
     }
 })
 
-module.exports = mongoose.model('Campground', CampgroundSchema)
+const Campground = model<ICampground>('Campground', CampgroundSchema)
+export default Campground;

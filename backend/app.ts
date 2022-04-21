@@ -49,9 +49,9 @@ initAuth(app);
 
 // flash middleware
 app.use((req: Request, res: Response, next: NextFunction) => {
-    res.locals.currentUser = req.user
-    res.locals.success = req.flash('success')
-    res.locals.error = req.flash('error')
+    res.locals['currentUser'] = req.user
+    res.locals['success'] = req.flash('success')
+    res.locals['error'] = req.flash('error')
     next()
 })
 

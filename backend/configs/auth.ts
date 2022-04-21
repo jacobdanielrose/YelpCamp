@@ -10,7 +10,7 @@ import MongoStore from 'connect-mongo';
 
 const dbUrl: string = 'mongodb://localhost:27017/yelpcamp';
 
-export const secret = process.env.SECRET as string || 'thisshouldbeabettersecret!';
+export const secret = process.env['SECRET'] as string || 'thisshouldbeabettersecret!';
 const storeOptions = {
     mongoUrl: dbUrl,
     //secret: secret,

@@ -1,11 +1,11 @@
 const Campground = require('../models/campground')
 const Review = require('../models/review')
 
-import express, { Express, Request, Response, NextFunction } from 'express';
+import { Request, Response, } from 'express';
 
 
 export async function createReview(req: Request, res: Response) {
-    const campground = await Campground.findById(req.params.id)
+    const campground = await Campground.findById(req.params['id'])
     const review = new Review(req.body.review)
     // need to change the way User is implemented
     // so that this ignore is not necessary

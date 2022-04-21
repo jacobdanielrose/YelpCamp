@@ -1,4 +1,4 @@
-import app from './src/app';
+import app from './backend/app';
 import http from 'http';
 import { debug } from 'console';
 import dotenv from 'dotenv';

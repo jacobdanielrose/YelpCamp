@@ -15,7 +15,7 @@ export async function register(req: Request, res: Response, next: NextFunction) 
             req.flash('success', 'Welcome to Yelp Camp!')
             res.redirect('/campgrounds')
         })
-    } catch (e) {
+    } catch (e: any) {
         req.flash('error', e.message)
         res.redirect('register')
     }

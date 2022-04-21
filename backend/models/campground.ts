@@ -1,4 +1,4 @@
-import mongoose, { Schema, model } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import Review from './review';
 
 
@@ -15,6 +15,8 @@ const ImageSchema = new Schema<IImage>({
 })
 
 ImageSchema.virtual('thumbnail').get(function () {
+    // TODO: fix this ambiguity properly
+    //@ts-ignore
     return this.url.replace('/upload', '/upload/w_200')
 })
 
@@ -63,10 +65,14 @@ const CampgroundSchema = new Schema<ICampground>({
 
 // Need to pass virtual properties to connect the 
 CampgroundSchema.virtual('properties.title').get(function () {
+    // TODO: fix this ambiguity properly
+    //@ts-ignore
     return `${this.title}`
 })
 
 CampgroundSchema.virtual('properties.id').get(function () {
+    // TODO: fix this ambiguity properly
+    //@ts-ignore
     return `${this._id}`
 })
 

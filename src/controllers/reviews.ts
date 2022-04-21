@@ -7,6 +7,9 @@ import express, { Express, Request, Response, NextFunction } from 'express';
 export async function createReview(req: Request, res: Response) {
     const campground = await Campground.findById(req.params.id)
     const review = new Review(req.body.review)
+    // need to change the way User is implemented
+    // so that this ignore is not necessary
+    //@ts-ignore
     review.author = req.user._id
     campground.reviews.push(review)
     await review.save()

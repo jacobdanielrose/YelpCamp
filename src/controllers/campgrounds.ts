@@ -24,7 +24,12 @@ export async function createCampground(req: Request, res: Response, next: NextFu
     }).send()
     const campground = new Campground(req.body.campground)
     campground.geometry = geoData.body.features[0].geometry
+    // need to look at image model probably
+    //@ts-ignore
     campground.images = req.files.map(f => ({ url: f.path, filename: f.filename }))
+    // need to change the way User is implemented
+    // so that this ignore is not necessary
+    //@ts-ignore
     campground.author = req.user._id
     await campground.save()
     req.flash('success', 'Successfully made a new Campground!')
@@ -59,6 +64,8 @@ export async function renderEditForm(req: Request, res: Response) {
 export async function updateCampground(req: Request, res: Response) {
     const { id } = req.params
     const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground })
+    // need to look at image model probably
+    //@ts-ignore
     const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }))
     campground.images.push(...imgs)
     await campground.save()

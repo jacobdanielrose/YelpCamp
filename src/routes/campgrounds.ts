@@ -10,18 +10,18 @@ const router = express.Router()
 
 
 router.route('/')
-    .get(catchAsync(index))
-    .post(isLoggedIn, upload.array('image'), validateCampground, catchAsync(createCampground))
+//.get(catchAsync(index))
+//.post(isLoggedIn, upload.array('image'), validateCampground, catchAsync(createCampground))
 
-router.get('/new', isLoggedIn, renderNewForm)
+//router.get('/new', isLoggedIn, renderNewForm)
 
 router.route('/:id')
-    .get(catchAsync(showCampground))
-    .put(isLoggedIn, isAuthor, upload.array('image'), validateCampground, catchAsync(updateCampground))
-    .delete(isAuthor, isLoggedIn, catchAsync(deleteCampground))
+// .get(catchAsync(showCampground))
+// .put(isLoggedIn, isAuthor, upload.array('image'), validateCampground, catchAsync(updateCampground))
+// .delete(isAuthor, isLoggedIn, catchAsync(deleteCampground))
 
 
-router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(renderEditForm))
+//router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(renderEditForm))
 
 
 export default router;

@@ -1,5 +1,5 @@
-const BaseJoi = require('joi')
-const sanitizeHtml = require('sanitize-html')
+import BaseJoi from 'joi'
+import sanitizeHtml from 'sanitize-html'
 
 const extension = (joi: { string: () => any; }) => ({
     type: 'string',
@@ -23,7 +23,7 @@ const extension = (joi: { string: () => any; }) => ({
 
 const Joi = BaseJoi.extend(extension)
 
-module.exports.campgroundSchema = Joi.object({
+export const campgroundSchema = Joi.object({
     campground: Joi.object({
         title: Joi.string().required().escapeHTML(),
         price: Joi.number().required().min(0),
@@ -34,7 +34,7 @@ module.exports.campgroundSchema = Joi.object({
     deleteImages: Joi.array()
 })
 
-module.exports.reviewSchema = Joi.object({
+export const reviewSchema = Joi.object({
     review: Joi.object({
         rating: Joi.number().required().min(1).max(5),
         body: Joi.string().required().escapeHTML()

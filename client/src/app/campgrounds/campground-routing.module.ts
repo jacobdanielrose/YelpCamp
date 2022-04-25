@@ -7,10 +7,27 @@ import { CampgroundShowComponent } from "./campground-show/campground-show.compo
 
 
 const routes: Routes = [
-    { path: '', component: CampgroundListComponent },
-    { path: 'campgrounds/new', component: CampgroundCreateComponent },
-    { path: 'edit', component: CampgroundEditComponent },
-    { path: 'show', component: CampgroundShowComponent }
+    {
+        path: 'campgrounds',
+        component: CampgroundListComponent,
+        children: [
+            {
+                path: 'edit/:campId',
+                component: CampgroundEditComponent
+            },
+            {
+                path: 'new',
+                component: CampgroundCreateComponent
+            },
+            {
+                path: ':campId',
+                component: CampgroundShowComponent
+            }
+        ]
+    },
+    //{ path: 'campgrounds/new', component: CampgroundCreateComponent },
+    //{ path: 'edit/:campgroundId', component: CampgroundEditComponent },
+    //{ path: 'show', component: CampgroundShowComponent }
 ]
 
 @NgModule({

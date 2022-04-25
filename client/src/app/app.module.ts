@@ -32,20 +32,15 @@ import { MdbTabsModule } from 'mdb-angular-ui-kit/tabs';
 import { MdbTooltipModule } from 'mdb-angular-ui-kit/tooltip';
 import { MdbValidationModule } from 'mdb-angular-ui-kit/validation';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
-    SignupComponent,
     ErrorComponent,
     CampgroundsComponent,
-    CampgroundCreateComponent,
-    CampgroundListComponent,
     NavbarComponent,
     MapComponent,
-    CampgroundEditComponent,
-    CampgroundShowComponent,
     HomeComponent,
     AnimationComponent,
   ],
@@ -53,6 +48,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserModule,
     AppRoutingModule,
     NgbModule,
+    AuthModule,
     MdbAccordionModule,
     MdbCarouselModule,
     MdbCheckboxModule,

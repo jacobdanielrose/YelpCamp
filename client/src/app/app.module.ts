@@ -14,6 +14,8 @@ import { MapComponent } from './campgrounds/map/map.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CampgroundEditComponent } from './campgrounds/campground-edit/campground-edit.component';
 import { CampgroundShowComponent } from './campgrounds/campground-show/campground-show.component';
+import { HomeComponent } from './home/home.component';
+import { AnimationComponent } from './home/animation/animation.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import { CampgroundShowComponent } from './campgrounds/campground-show/campgroun
     MapComponent,
     CampgroundEditComponent,
     CampgroundShowComponent,
+    HomeComponent,
+    AnimationComponent,
   ],
   imports: [
     BrowserModule,

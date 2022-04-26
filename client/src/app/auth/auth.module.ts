@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { FormsModule } from '@angular/forms';
 import { AuthRoutingModule } from './auth-routing.module';
+import { MdbMaterialModule } from '../mdb-material.module';
 
 
 
@@ -15,7 +16,9 @@ import { AuthRoutingModule } from './auth-routing.module';
   imports: [
     CommonModule,
     FormsModule,
-    AuthRoutingModule
+    MdbMaterialModule,
+    AuthRoutingModule,
+
   ]
 })
 export class AuthModule { }

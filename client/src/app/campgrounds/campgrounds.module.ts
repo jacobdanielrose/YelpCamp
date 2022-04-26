@@ -5,6 +5,7 @@ import { CampgroundListComponent } from './campground-list/campground-list.compo
 import { CampgroundEditComponent } from './campground-edit/campground-edit.component';
 import { CampgroundShowComponent } from './campground-show/campground-show.component';
 import { FormsModule } from '@angular/forms';
+import { MdbMaterialModule } from '../mdb-material.module';
 
 
 
@@ -18,6 +19,7 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     FormsModule,
+    MdbMaterialModule
   ]
 })
 export class CampgroundsModule { }

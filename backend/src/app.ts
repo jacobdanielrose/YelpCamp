@@ -56,7 +56,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 })
 
 //implement routes
-app.use('/', userRoutes)
+app.use('/user', userRoutes)
 app.use('/campgrounds', campgroundRoutes)
 app.use('/campgrounds/:id/reviews', reviewRoutes)
 

@@ -6,28 +6,34 @@
                     alt="" class="card-img-top" />
                 <div class="card-body">
                     <h5 class="card-title">Register</h5>
-                    <form action="/register" method="POST" class="validated-form" novalidate>
-                        <div class="mb-3">
-                            <label class="form-label" for="username">Username</label>
-                            <input class="form-control" type="text" id="username" name="username" required autofocus>
-                            <div class="valid-feedback">
-                                Looks good!
+                    <form (submit)="onSignup(signupForm)" #signupForm="ngForm" method="POST" class="validated-form"
+                        novalidate>
+                        <mdb-form-control>
+                            <div class="mb-3">
+                                <label class="form-label" for="username">Username</label>
+                                <input class="form-control" type="text" id="username" name="username" required ngModel
+                                    placeholder="Username" #usernameInput="ngModel" autofocus>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
                             </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="email">Email</label>
-                            <input class="form-control" type="email" id="email" name="email" required>
-                            <div class="valid-feedback">
-                                Looks good!
+                            <div class="mb-3">
+                                <label class="form-label" for="email">Email</label>
+                                <input class="form-control" type="email" id="email" name="email" ngModel
+                                    placeholder="Email" #emailInput="ngModel" required>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
                             </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="password">Password</label>
-                            <input class="form-control" type="password" id="password" name="password" required>
-                            <div class="valid-feedback">
-                                Looks good!
+                            <div class="mb-3">
+                                <label class="form-label" for="password">Password</label>
+                                <input class="form-control" type="password" id="password" name="password" ngModel
+                                    placeholder="Password" #passwordInput="ngModel" required>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
                             </div>
-                        </div>
+                        </mdb-form-control>
                         <button class="btn btn-success btn-block">Register</button>
                     </form>
 

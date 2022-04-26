@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './auth/auth.guard';
 import { CampgroundCreateComponent } from './campgrounds/campground-create/campground-create.component';
 import { CampgroundEditComponent } from './campgrounds/campground-edit/campground-edit.component';
 import { CampgroundListComponent } from './campgrounds/campground-list/campground-list.component';
@@ -15,6 +16,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [AuthGuard]
 })
 export class AppRoutingModule { }

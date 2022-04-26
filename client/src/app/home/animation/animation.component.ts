@@ -5,9 +5,11 @@ import {
   WebGLRenderer,
   Mesh,
   MeshBasicMaterial,
-  BoxGeometry, Color, TextureLoader
+  BoxGeometry, Color, TextureLoader, AmbientLight, PointLight, DirectionalLight, Box3
 } from 'three';
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
+import { CSS2DRenderer } from "three/examples/jsm/renderers/CSS2DRenderer"
 
 @Component({
   selector: 'app-animation',
@@ -28,22 +30,34 @@ export class AnimationComponent implements OnInit, AfterViewInit {
   //* Stage Properties 
   @Input() public cameraZ: number = 400;
   @Input() public fieldOfView: number = 1;
-  @Input('nearClipping') public nearClippingPlane: number = 1;
-  @Input('farClipping') public farClippingPlane: number = 1000;
+  @Input('nearClipping') public nearClippingPane: number = 1;
+  @Input('farClipping') public farClippingPane: number = 1000;
 
   //? Helper Properties (Private Properties);
 
   private camera!: PerspectiveCamera;
 
+  private controls!: OrbitControls;
+
+  private ambientLight!: AmbientLight;
+
+  private light1!: PointLight;
+
+  private light2!: PointLight;
+
+  private light3!: PointLight;
+
+  private light4!: PointLight;
+
+  private model: any;
+
+  private directionalLight!: DirectionalLight;
+
   private get canvas(): HTMLCanvasElement {
     return this.canvasRef.nativeElement;
   }
-  private gltfloader = new GLTFLoader();
-  private loader = new TextureLoader();
-  private geometry = new BoxGeometry(1, 1, 1);
-  private material = new MeshBasicMaterial({ map: this.loader.load(this.texture) });
 
-  private cube: Mesh = new Mesh(this.geometry, this.material)
+  private loaderGLTF = new GLTFLoader();
 
   private renderer!: WebGLRenderer;
 
@@ -51,15 +65,35 @@ export class AnimationComponent implements OnInit, AfterViewInit {
 
 
   /**
-   * Animate the cube
-   *
-   * @private
-   * @memberOf AnimationComponent
-   */
-  private animateCube() {
-    this.cube.rotation.x += this.rotationSpeedX;
-    this.cube.rotation.y += this.rotationSpeedY;
+  *Animate the model
+  *
+  * @private
+  * @memberof ModelComponent
+  */
+  private animateModel() {
+    if (this.model) {
+      this.model.rotation.z += 0.005;
+    }
   }
+
+  /**
+  *create controls
+  *
+  * @private
+  * @memberof ModelComponent
+  */
+  private createControls = () => {
+    const renderer = new CSS2DRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.domElement.style.position = 'absolute';
+    renderer.domElement.style.top = '0px';
+    document.body.appendChild(renderer.domElement);
+    this.controls = new OrbitControls(this.camera, renderer.domElement);
+    this.controls.autoRotate = true;
+    this.controls.enableZoom = true;
+    this.controls.enablePan = false;
+    this.controls.update();
+  };
 
   /**
    * Create the Scene
@@ -68,19 +102,47 @@ export class AnimationComponent implements OnInit, AfterViewInit {
    * @memberOf AnimationComponent
    */
   private createScene() {
-    //* scene
+    //* Scene
     this.scene = new Scene();
-    this.scene.background = new Color(0x000000);
-    this.scene.add(this.cube);
-    //* Camera
+    this.scene.background = new Color(0xd4d4d8)
+    this.loaderGLTF.load('assets/models/campsite/scene.gltf', (gltf: GLTF) => {
+      this.model = gltf.scene.children[0];
+      console.log(this.model);
+      var box = new Box3().setFromObject(this.model);
+      box.getCenter(this.model.position); // this re-sets the mesh position
+      this.model.position.multiplyScalar(-1);
+      this.scene.scale.set(0.1, 0.1, 0.1);
+      this.scene.add(this.model);
+    });
+    //*Camera
     let aspectRatio = this.getAspectRatio();
     this.camera = new PerspectiveCamera(
       this.fieldOfView,
       aspectRatio,
-      this.nearClippingPlane,
-      this.farClippingPlane
+      this.nearClippingPane,
+      this.farClippingPane
     )
-    this.camera.position.z = this.cameraZ;
+    this.camera.position.x = 1000;
+    this.camera.position.y = 1000;
+    this.camera.position.z = 1000;
+    this.ambientLight = new AmbientLight(0x00000, 100);
+    this.scene.add(this.ambientLight);
+    this.directionalLight = new DirectionalLight(0xffdf04, 0.4);
+    this.directionalLight.position.set(0, 1, 0);
+    this.directionalLight.castShadow = true;
+    this.scene.add(this.directionalLight);
+    this.light1 = new PointLight(0x4b371c, 10);
+    this.light1.position.set(0, 200, 400);
+    this.scene.add(this.light1);
+    this.light2 = new PointLight(0x4b371c, 10);
+    this.light2.position.set(500, 100, 0);
+    this.scene.add(this.light2);
+    this.light3 = new PointLight(0x4b371c, 10);
+    this.light3.position.set(0, 100, -500);
+    this.scene.add(this.light3);
+    this.light4 = new PointLight(0x4b371c, 10);
+    this.light4.position.set(-500, 300, 500);
+    this.scene.add(this.light4);
   }
 
   private getAspectRatio() {
@@ -93,30 +155,27 @@ export class AnimationComponent implements OnInit, AfterViewInit {
    * @memberof AnimationComponent
    */
   private startRenderingLoop() {
-    //*  Renderer
+    //* Renderer
     // Use canvas element in template
-    this.renderer = new WebGLRenderer({ canvas: this.canvas });
+    this.renderer = new WebGLRenderer({ canvas: this.canvas, antialias: true });
     this.renderer.setPixelRatio(devicePixelRatio);
     this.renderer.setSize(this.canvas.clientWidth, this.canvas.clientHeight);
-
     let component: AnimationComponent = this;
     (function render() {
-      requestAnimationFrame(render);
-      component.animateCube();
       component.renderer.render(component.scene, component.camera);
+      component.animateModel();
+      requestAnimationFrame(render);
     }());
   }
 
   constructor() { }
 
-  ngOnInit(): void {
-    //TODO: Define this function
-    console.log("hello");
-  }
+  ngOnInit(): void { }
 
   ngAfterViewInit(): void {
     this.createScene();
     this.startRenderingLoop();
+    this.createControls();
   }
 
 }

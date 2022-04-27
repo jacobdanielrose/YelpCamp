@@ -1,44 +1,52 @@
-<div class="container d-flex justify-content-center align-items-center mt-5">
-    <div class="row">
-        <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
-            <div class="card shadow">
-                <img src="https://images.unsplash.com/photo-1571863533956-01c88e79957e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80"
-                    alt="" class="card-img-top" />
-                <div class="card-body">
-                    <h5 class="card-title">Register</h5>
-                    <form (submit)="onSignup(signupForm)" #signupForm="ngForm" method="POST" class="validated-form"
-                        novalidate>
-                        <mdb-form-control>
-                            <div class="mb-3">
-                                <label class="form-label" for="username">Username</label>
-                                <input class="form-control" type="text" id="username" name="username" required ngModel
-                                    placeholder="Username" #usernameInput="ngModel" autofocus>
-                                <div class="valid-feedback">
-                                    Looks good!
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="email">Email</label>
-                                <input class="form-control" type="email" id="email" name="email" ngModel
-                                    placeholder="Email" #emailInput="ngModel" required>
-                                <div class="valid-feedback">
-                                    Looks good!
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label" for="password">Password</label>
-                                <input class="form-control" type="password" id="password" name="password" ngModel
-                                    placeholder="Password" #passwordInput="ngModel" required>
-                                <div class="valid-feedback">
-                                    Looks good!
-                                </div>
-                            </div>
-                        </mdb-form-control>
-                        <button class="btn btn-success btn-block">Register</button>
-                    </form>
-
-                </div>
+<div class="card" style="width: 18rem;">
+    <img src="https://mdbootstrap.com/img/new/standard/nature/184.webp" class="card-img-top" alt="..." />
+    <div class="card-body">
+        <h5 class="card-title">Sign Up!</h5>
+        <p class="card-text">
+            Enter your email and create a username and password to be able to use our site to its fullest extent!
+        </p>
+        <hr>
+        <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
+            <div class="mb-3">
+                <mdb-form-control>
+                    <input mdbValidate mdbInput type="email" id="email" class="form-control" formControlName="email"
+                        required />
+                    <label mdbLabel class="form-label" for="email">Email Address</label>
+                    <mdb-error *ngIf="
+                email?.invalid && (email?.dirty || email?.touched)
+                ">First name is required</mdb-error>
+                    <mdb-success *ngIf="
+                email?.valid && (email?.dirty || email?.touched)
+                ">Looks good!</mdb-success>
+                </mdb-form-control>
             </div>
-        </div>
+            <div class="mb-3">
+                <mdb-form-control>
+                    <input mdbValidate mdbInput type="text" id="username" class="form-control"
+                        formControlName="username" required />
+                    <label mdbLabel class="form-label" for="username">Username</label>
+                    <mdb-error *ngIf="
+                username?.invalid && (username?.dirty || username?.touched)
+                ">First name is required</mdb-error>
+                    <mdb-success *ngIf="
+                username?.valid && (username?.dirty || username?.touched)
+                ">Looks good!</mdb-success>
+                </mdb-form-control>
+            </div>
+            <div>
+                <mdb-form-control>
+                    <input mdbValidate mdbInput type="password" id="password" class="form-control"
+                        formControlName="password" required />
+                    <label mdbLabel class="form-label" for="password">Password</label>
+                    <mdb-error *ngIf="password?.invalid && (password?.dirty || password?.touched)">Last name is required
+                    </mdb-error>
+                    <mdb-success *ngIf="password?.valid && (password?.dirty || password?.touched)">Looks good!
+                    </mdb-success>
+                </mdb-form-control>
+            </div>
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary mt-4">Sign Up</button>
+            </div>
+        </form>
     </div>
 </div>

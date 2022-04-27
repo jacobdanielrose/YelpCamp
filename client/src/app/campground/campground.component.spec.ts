@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CampgroundListComponent } from './campground-list.component';
+import { CampgroundComponent } from './campground.component';
 
-describe('CampgroundListComponent', () => {
-  let component: CampgroundListComponent;
-  let fixture: ComponentFixture<CampgroundListComponent>;
+describe('CampgroundComponent', () => {
+  let component: CampgroundComponent;
+  let fixture: ComponentFixture<CampgroundComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CampgroundListComponent ]
+      declarations: [ CampgroundComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CampgroundListComponent);
+    fixture = TestBed.createComponent(CampgroundComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

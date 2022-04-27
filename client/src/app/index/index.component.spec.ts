@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CampgroundShowComponent } from './campground-show.component';
+import { IndexComponent } from './index.component';
 
-describe('CampgroundShowComponent', () => {
-  let component: CampgroundShowComponent;
-  let fixture: ComponentFixture<CampgroundShowComponent>;
+describe('IndexComponent', () => {
+  let component: IndexComponent;
+  let fixture: ComponentFixture<IndexComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CampgroundShowComponent ]
+      declarations: [ IndexComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CampgroundShowComponent);
+    fixture = TestBed.createComponent(IndexComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

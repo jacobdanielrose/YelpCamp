@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -7,18 +7,32 @@ import { AuthService } from '../auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
-  constructor(public authService: AuthService) { }
+  loginForm: FormGroup;
 
-  ngOnInit(): void {
+  constructor(public authService: AuthService) {
+    this.loginForm = new FormGroup({
+      username: new FormControl(null, { validators: Validators.required, updateOn: 'submit' }),
+      password: new FormControl(null, { validators: Validators.required, updateOn: 'submit' }),
+    });
   }
 
-  onLogin(form: NgForm) {
-    if (form.invalid) {
+  get username() {
+    return this.loginForm.get('username')!;
+  }
+
+  get password() {
+    return this.loginForm.get('password')!;
+  }
+
+  onLogin() {
+    if (this.loginForm.invalid) {
       return;
     }
-    this.authService.login(form.value.email, form.value.password)
+    this.loginForm.markAllAsTouched();
+    const { username, password } = this.loginForm.value;
+    this.authService.login(username, password);
   }
 
 }

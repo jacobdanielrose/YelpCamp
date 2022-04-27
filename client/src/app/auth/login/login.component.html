@@ -1,35 +1,39 @@
-<div class="container d-flex justify-content-center align-items-center mt-5">
-    <div class="row">
-        <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
-            <div class="card shadow">
-                <img src="https://images.unsplash.com/photo-1571863533956-01c88e79957e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80"
-                    alt="" class="card-img-top" />
-                <div class="card-body">
-                    <h5 class="card-title">Login</h5>
-                    <form (submit)="onLogin(loginForm)" #loginForm="ngForm" class="validated-form" novalidate>
-                        <mdb-form-control>
-                            <div class="mb-3">
-                                <label class="form-label" for="username">Username</label>
-                                <input class="form-control" ngModel #usernameInput="ngModel" type="text" id="username"
-                                    placeholder="Username" name="username" autofocus required>
-                                <div class="valid-feedback">
-                                    Looks good!
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label" for="password">Password</label>
-                                <input class="form-control" placeholder="Password" type="password" id="password" ngModel
-                                    #passwordInput="ngModel" name="password" required>
-                                <div class="valid-feedback">
-                                    Looks good!
-                                </div>
-                            </div>
-                        </mdb-form-control>
-                        <button class="btn btn-success btn-block">Login</button>
-                    </form>
-                </div>
+<div class="card" style="width: 18rem;">
+    <img src="https://mdbootstrap.com/img/new/standard/nature/184.webp" class="card-img-top" alt="..." />
+    <div class="card-body">
+        <h5 class="card-title">Log In!</h5>
+        <p class="card-text">
+            Enter your username and password to access your campsites!
+        </p>
+        <hr>
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+            <div class="mb-3">
+                <mdb-form-control>
+                    <input mdbValidate mdbInput type="text" id="username" class="form-control"
+                        formControlName="username" required />
+                    <label mdbLabel class="form-label" for="username">Username</label>
+                    <mdb-error *ngIf="
+                username?.invalid && (username?.dirty || username?.touched)
+                ">First name is required</mdb-error>
+                    <mdb-success *ngIf="
+                username?.valid && (username?.dirty || username?.touched)
+                ">Looks good!</mdb-success>
+                </mdb-form-control>
             </div>
-        </div>
+            <div>
+                <mdb-form-control>
+                    <input mdbValidate mdbInput type="password" id="password" class="form-control"
+                        formControlName="password" required />
+                    <label mdbLabel class="form-label" for="password">Password</label>
+                    <mdb-error *ngIf="password?.invalid && (password?.dirty || password?.touched)">Last name is required
+                    </mdb-error>
+                    <mdb-success *ngIf="password?.valid && (password?.dirty || password?.touched)">Looks good!
+                    </mdb-success>
+                </mdb-form-control>
+            </div>
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary mt-4">Login</button>
+            </div>
+        </form>
     </div>
 </div>

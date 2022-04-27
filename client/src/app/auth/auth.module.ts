@@ -5,7 +5,7 @@ import { SignupComponent } from './signup/signup.component';
 import { FormsModule } from '@angular/forms';
 import { AuthRoutingModule } from './auth-routing.module';
 import { MdbMaterialModule } from '../mdb-material.module';
-
+import { ReactiveFormsModule } from '@angular/forms'
 
 
 @NgModule({
@@ -16,6 +16,7 @@ import { MdbMaterialModule } from '../mdb-material.module';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     MdbMaterialModule,
     AuthRoutingModule,
 

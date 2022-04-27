@@ -104,6 +104,7 @@ export class AuthService {
       this.authStatusListener.next(true);
     }
   }
+
   // STATIC FUNCTIONS
   private static saveAuthData(token: string, expirationDate: Date, userId: string): void {
     localStorage.setItem('token', token);

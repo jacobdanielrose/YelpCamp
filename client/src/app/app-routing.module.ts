@@ -1,16 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth/auth.guard';
-import { CampgroundCreateComponent } from './campgrounds/campground-create/campground-create.component';
-import { CampgroundEditComponent } from './campgrounds/campground-edit/campground-edit.component';
-import { CampgroundListComponent } from './campgrounds/campground-list/campground-list.component';
+import { CampgroundComponent } from './campground/campground.component';
 import { HomeComponent } from './home/home.component';
+import { IndexComponent } from './index/index.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'campgrounds', component: CampgroundListComponent },
-  { path: 'campgrounds/new', component: CampgroundCreateComponent },
-  { path: 'campgrounds/edit/:campgroundId', component: CampgroundEditComponent },
+  { path: 'campgrounds', component: IndexComponent },
+  { path: 'campground/:campgroundId', component: CampgroundComponent },
   { path: "auth", loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) }
 ];
 

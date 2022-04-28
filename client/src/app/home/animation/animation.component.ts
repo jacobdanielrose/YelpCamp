@@ -2,14 +2,9 @@ import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '
 import {
   Scene,
   PerspectiveCamera,
-  WebGLRenderer,
-  Mesh,
-  MeshBasicMaterial,
-  BoxGeometry, Color, TextureLoader, AmbientLight, PointLight, DirectionalLight, Box3
+  WebGLRenderer, Color, AmbientLight, PointLight, DirectionalLight, Box3, Vector3
 } from 'three';
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls"
-import { CSS2DRenderer } from "three/examples/jsm/renderers/CSS2DRenderer"
 
 @Component({
   selector: 'app-animation',
@@ -37,8 +32,6 @@ export class AnimationComponent implements OnInit, AfterViewInit {
 
   private camera!: PerspectiveCamera;
 
-  private controls!: OrbitControls;
-
   private ambientLight!: AmbientLight;
 
   private light1!: PointLight;
@@ -63,6 +56,8 @@ export class AnimationComponent implements OnInit, AfterViewInit {
 
   private scene!: Scene;
 
+  //private center!: Vector3;
+
 
   /**
   *Animate the model
@@ -77,25 +72,6 @@ export class AnimationComponent implements OnInit, AfterViewInit {
   }
 
   /**
-  *create controls
-  *
-  * @private
-  * @memberof ModelComponent
-  */
-  private createControls = () => {
-    const renderer = new CSS2DRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.domElement.style.position = 'absolute';
-    renderer.domElement.style.top = '0px';
-    document.body.appendChild(renderer.domElement);
-    this.controls = new OrbitControls(this.camera, renderer.domElement);
-    this.controls.autoRotate = true;
-    this.controls.enableZoom = true;
-    this.controls.enablePan = false;
-    this.controls.update();
-  };
-
-  /**
    * Create the Scene
    *
    * @private
@@ -106,12 +82,14 @@ export class AnimationComponent implements OnInit, AfterViewInit {
     this.scene = new Scene();
     this.scene.background = new Color(0xd4d4d8)
     this.loaderGLTF.load('assets/models/campsite/scene.gltf', (gltf: GLTF) => {
-      this.model = gltf.scene.children[0];
+      this.model = gltf.scene;
       console.log(this.model);
-      var box = new Box3().setFromObject(this.model);
-      box.getCenter(this.model.position); // this re-sets the mesh position
-      this.model.position.multiplyScalar(-1);
-      this.scene.scale.set(0.1, 0.1, 0.1);
+      const box = new Box3().setFromObject(this.model);
+      this.size = box.getSize(new Vector3()).length();
+      const center = box.getCenter(new Vector3());
+      this.model.position.x += (this.model.position.x - center.x);
+      this.model.position.y += (this.model.position.y - center.y);
+      this.model.position.z += (this.model.position.z - center.z);
       this.scene.add(this.model);
     });
     //*Camera
@@ -122,9 +100,16 @@ export class AnimationComponent implements OnInit, AfterViewInit {
       this.nearClippingPane,
       this.farClippingPane
     )
-    this.camera.position.x = 1000;
-    this.camera.position.y = 1000;
-    this.camera.position.z = 1000;
+
+    //this.camera.position.copy(this.center);
+    this.camera.near = this.size / 100;
+    this.camera.far = this.size * 100;
+    this.camera.position.x += this.size / 2.0;
+    this.camera.position.y += this.size / 5.0;
+    this.camera.position.z += this.size / 2.0;
+    //this.camera.lookAt(this.center);
+
+    // Lights
     this.ambientLight = new AmbientLight(0x00000, 100);
     this.scene.add(this.ambientLight);
     this.directionalLight = new DirectionalLight(0xffdf04, 0.4);
@@ -175,7 +160,7 @@ export class AnimationComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.createScene();
     this.startRenderingLoop();
-    this.createControls();
+    //this.createControls();
   }
 
 }

@@ -7,3 +7,7 @@ button {
     cursor: pointer;
     outline: inherit;
 }
+
+.bg-light {
+    background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important
+}

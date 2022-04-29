@@ -1,5 +1,5 @@
 # Stage 1
-FROM node:16-alpine as build-step
+FROM node:16 as build-step
 
 RUN mkdir -p /app
 
@@ -14,7 +14,8 @@ COPY . /app
 RUN npm run build --prod
 
 # Stage 2
-FROM nginx:1.17.1-alpine
+FROM nginx:latest
 
-COPY --from=build-step /app/docs /usr/share/nginx/html
+EXPOSE 80 443
 
+COPY --from=build-step /app/yelpcamp /usr/share/nginx/html

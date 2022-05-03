@@ -22,7 +22,7 @@ export class AnimationComponent implements OnInit, AfterViewInit {
   @Input() public size: number = 200;
   @Input() public texture: string = "/assets/texture.jpg";
 
-  //* Stage Properties 
+  //* Stage Properties
   @Input() public cameraZ: number = 400;
   @Input() public fieldOfView: number = 1;
   @Input('nearClipping') public nearClippingPane: number = 1;
@@ -56,7 +56,7 @@ export class AnimationComponent implements OnInit, AfterViewInit {
 
   private scene!: Scene;
 
-  //private center!: Vector3;
+  private center!: Vector3;
 
 
   /**
@@ -67,7 +67,7 @@ export class AnimationComponent implements OnInit, AfterViewInit {
   */
   private animateModel() {
     if (this.model) {
-      this.model.rotation.z += 0.005;
+      this.model.rotation.y += 0.005;
     }
   }
 
@@ -80,35 +80,52 @@ export class AnimationComponent implements OnInit, AfterViewInit {
   private createScene() {
     //* Scene
     this.scene = new Scene();
-    this.scene.background = new Color(0xd4d4d8)
+    this.scene.background = new Color(0xd4d4d8);
+
+    this.setContent(this.scene);
+
+    this.AddLighting();
+  }
+
+  /**
+   * Add Content of the scene
+   *
+   * @private
+   * @param {Scene} scene
+   * @memberOf AnimationComponent
+   */
+  private setContent(scene: Scene) {
     this.loaderGLTF.load('assets/models/campsite/scene.gltf', (gltf: GLTF) => {
       this.model = gltf.scene;
-      console.log(this.model);
       const box = new Box3().setFromObject(this.model);
       this.size = box.getSize(new Vector3()).length();
-      const center = box.getCenter(new Vector3());
-      this.model.position.x += (this.model.position.x - center.x);
-      this.model.position.y += (this.model.position.y - center.y);
-      this.model.position.z += (this.model.position.z - center.z);
+      this.center = box.getCenter(new Vector3());
+      this.model.position.add( this.center );
+      //this.model.position.x = (this.model.position.x - this.center.x);
+      //this.model.position.y = (this.model.position.y - this.center.y);
+      //this.model.position.z = (this.model.position.z - this.center.z);
       this.scene.add(this.model);
-    });
-    //*Camera
-    let aspectRatio = this.getAspectRatio();
-    this.camera = new PerspectiveCamera(
-      this.fieldOfView,
-      aspectRatio,
-      this.nearClippingPane,
-      this.farClippingPane
-    )
 
-    //this.camera.position.copy(this.center);
+
     this.camera.near = this.size / 100;
     this.camera.far = this.size * 100;
-    this.camera.position.x += this.size / 2.0;
-    this.camera.position.y += this.size / 5.0;
-    this.camera.position.z += this.size / 2.0;
-    //this.camera.lookAt(this.center);
+    this.camera.updateProjectionMatrix();
 
+    this.camera.position.copy(this.center);
+    this.camera.position.x += this.size * 10;
+    this.camera.position.y += this.size * 10.0;
+    this.camera.position.z += this.size * 10.0;
+    this.camera.lookAt(this.center);
+    });
+  }
+
+  /**
+   * Add lighting to the scene
+   *
+   * @private
+   * @memberOf AnimationComponent
+   */
+  private AddLighting() {
     // Lights
     this.ambientLight = new AmbientLight(0x00000, 100);
     this.scene.add(this.ambientLight);
@@ -153,11 +170,20 @@ export class AnimationComponent implements OnInit, AfterViewInit {
     }());
   }
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void { }
 
   ngAfterViewInit(): void {
+    //*Camera
+    let aspectRatio = this.getAspectRatio();
+    this.camera = new PerspectiveCamera(
+      this.fieldOfView,
+      aspectRatio,
+      this.nearClippingPane,
+      this.farClippingPane
+    )
+
     this.createScene();
     this.startRenderingLoop();
     //this.createControls();

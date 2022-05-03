@@ -1,5 +1,5 @@
 import { PassportLocalDocument, PassportLocalSchema, Schema, model } from 'mongoose';
-import passportLocalMongoose from 'passport-local-mongoose'
+import passportLocalMongoose from 'passport-local-mongoose';
 
 // Mongoose docs say this is not recommend
 // but must be this way to use passportLocalMongoose

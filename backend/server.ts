@@ -1,7 +1,7 @@
-import app from './backend/app';
-import http from 'http';
+import app from './src/app';
+import * as http from 'http';
 import { debug } from 'console';
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -46,7 +46,7 @@ const onListening = () => {
     debug("Listening on " + bind);
 };
 
-const port = normalizePort(process.env.PORT || "8080");
+const port = normalizePort(process.env['PORT'] || "8080");
 app.set("port", port);
 
 const server = http.createServer(app);

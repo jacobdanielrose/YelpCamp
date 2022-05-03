@@ -3,10 +3,11 @@ import Campground from '../models/campground'
 import { cloudinary } from '../../cloudinary'
 
 //@ts-ignore
-import mbxGeocoding from '@mapbox/mapbox-sdk/services/geocoding'
-const mapBoxToken = process.env["MAPBOX_TOKEN"]
-const geocoder = mbxGeocoding({ accessToken: mapBoxToken })
+//import mbxGeocoding from '@mapbox/mapbox-sdk/services/geocoding'
+//const mapBoxToken = <string>process.env["MAPBOX_TOKEN"]
+//const geocoder = mbxGeocoding({ accessToken: mapBoxToken })
 
+//TODO: Add mapbox token and uncomment.
 
 export async function index(req: Request, res: Response) {
     const campgrounds = await Campground.find({})
@@ -18,19 +19,19 @@ export function renderNewForm(req: Request, res: Response) {
 }
 
 export async function createCampground(req: Request, res: Response, next: NextFunction) {
-    const geoData = await geocoder.forwardGeocode({
-        query: req.body.campground.location,
-        limit: 1
-    }).send()
+    //const geoData = await geocoder.forwardGeocode({
+    //    query: req.body.campground.location,
+    //    limit: 1
+    //}).send()
     const campground = new Campground(req.body.campground)
-    campground.geometry = geoData.body.features[0].geometry
+    //campground.geometry = geoData.body.features[0].geometry
     // need to look at image model probably
     //@ts-ignore
     campground.images = req.files.map(f => ({ url: f.path, filename: f.filename }))
     // need to change the way User is implemented
     // so that this ignore is not necessary
     //@ts-ignore
-    campground.author = req.user._id
+    campground.author = req.user._id as string;
     await campground.save()
     req.flash('success', 'Successfully made a new Campground!')
     res.redirect(`/campgrounds/${campground._id}`)

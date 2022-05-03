@@ -42,18 +42,17 @@ app.use(mongoSanitize({
 ***********************/
 initAuth(app);
 
-
 /********************
  * IMPLEMENT ROUTES *
  ********************/
 
 // flash middleware
-app.use((req: Request, res: Response, next: NextFunction) => {
-    res.locals['currentUser'] = req.user
-    res.locals['success'] = req.flash('success')
-    res.locals['error'] = req.flash('error')
-    next()
-})
+//app.use((req: Request, res: Response, next: NextFunction) => {
+ //   res.locals['currentUser'] = req.user
+  //  res.locals['success'] = req.flash('success')
+   // res.locals['error'] = req.flash('error')
+    //next()
+//})
 
 //implement routes
 app.use('/user', userRoutes)
@@ -62,7 +61,7 @@ app.use('/campgrounds/:id/reviews', reviewRoutes)
 
 // home route
 app.get('/', (req: Request, res: Response) => {
-    res.render('home')
+    res.send('hello')
 })
 
 // 404 for not-defined routes

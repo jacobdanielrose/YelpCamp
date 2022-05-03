@@ -8,7 +8,7 @@ import flash from 'connect-flash';
 import User from '../models/user'
 import MongoStore from 'connect-mongo';
 
-const dbUrl: string = 'mongodb://localhost:27017/yelpcamp';
+const dbUrl: string =  process.env['MONGO_URL'] as string || 'mongodb://localhost:27017/yelpcamp';
 
 export const secret = process.env['SECRET'] as string || 'thisshouldbeabettersecret!';
 const storeOptions = {
@@ -41,6 +41,8 @@ export default function initAuth(app: Express.Application) {
     app.use(passport.initialize())
     app.use(passport.session())
     passport.use(new LocalStrategy(User.authenticate()))
+    // TODO: Figure out why typescript calls an error here
+    // @ts-ignore
     passport.serializeUser(User.serializeUser())
     passport.deserializeUser(User.deserializeUser())
 }
